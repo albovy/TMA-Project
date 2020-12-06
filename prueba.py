@@ -59,9 +59,9 @@ if __name__ == '__main__':
 
                 dt[col] = dt[col].astype('str')
             else:
-                dt[col] = dt[col].astype('float')
+                dt[col] = dt[col].astype('int')
 
         if printer: dt.head()
-        clf = PClassification('Decision Tree', DecisionTreeClassifier(), sys.argv[2])
+        clf = PClassification('Decision Tree', DecisionTreeClassifier(), "model/"+sys.argv[2])
     except Exception as excp:
         print(excp)

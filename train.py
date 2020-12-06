@@ -24,7 +24,7 @@ def PClassification(name, clf, THRESHOLD, saveFilename=False, ejTrain=True):
     if ejTrain: clf.fit(train_data, train_answ)
 
     # Save model
-    if saveFilename: joblib.dump(clf, saveFilename)
+    if saveFilename: joblib.dump(clf, "model/"+saveFilename)
 
     # Prediction
     preds = pd.Series(clf.predict(check_data), name='preds')

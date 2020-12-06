@@ -28,10 +28,9 @@ def PClassification(name, clf, loadFilename=False):
 if __name__ == '__main__':
     printer = True
     try:
-        if len(sys.argv) != 3:
+        if len(sys.argv) != 4:
             raise Exception("Error in arguments")
         filename = sys.argv[1]
-        print("hola")
         df = pd.read_csv(filename, sep='\t', iterator=True, chunksize=100000)
         dt = pd.concat(df, ignore_index=True)
         w = ['tunnel_parents', 'duration', 'label', 'ts', 'detailed-label']
@@ -48,13 +47,11 @@ if __name__ == '__main__':
         if printer: dt.head()
         for col in dt.columns:
             if col == 'detailed-label':
-
                 dt[col] = dt[col].astype('str')
             else:
                 dt[col] = dt[col].astype('float')
-
         if printer: dt.head()
-        clf = PClassification('Decision Tree', DecisionTreeClassifier(), sys.argv[2])
-        dt.to_csv("preds", "\t")
+        clf = PClassification('Decision Tree', DecisionTreeClassifier(), "model/"+sys.argv[2])
+        dt.to_csv("predictions/"+sys.argv[3], "\t")
     except Exception as excp:
         print(excp)
