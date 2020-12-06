@@ -42,26 +42,14 @@ if __name__ == '__main__':
         filename = sys.argv[1]
         df = pd.read_csv(filename, sep='\t', iterator=True, chunksize=100000)
         dt = pd.concat(df, ignore_index=True)
-        w = ['tunnel_parents','duration', 'label', 'ts']
-        for col in w:
-            try:
-                del dt[col]
-                if printer: print('{} : deleted'.format(col))
-            except:
-                if printer: print('{} : not found'.format(col))
+        del df
+        filter = ['id.orig_p','id.resp_p', 'missed_bytes', 'orig_pkts', 'orig_ip_bytes', 'resp_pkts', 'resp_ip_bytes', 'detailed-label']
+        dt = dt[filter]
         NROWS, NCOLS = dt.shape
         print()
         print("- rows  =", NROWS)
         print("- atrs =", NCOLS)
-        if printer: dt.head()
-        for col in dt.columns:
-            if col == 'detailed-label':
-
-                dt[col] = dt[col].astype('str')
-            else:
-                dt[col] = dt[col].astype('int')
-
-        if printer: dt.head()
+        print(dt.head())
         clf = PClassification('Decision Tree', DecisionTreeClassifier(), "model/"+sys.argv[2])
     except Exception as excp:
         print(excp)
