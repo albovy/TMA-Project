@@ -1,5 +1,4 @@
 from sklearn.metrics import accuracy_score
-
 import pandas as pd
 import joblib
 from sklearn.tree import DecisionTreeClassifier
@@ -43,9 +42,6 @@ if __name__ == '__main__':
         filename = sys.argv[1]
         df = pd.read_csv(filename, sep='\t', iterator=True, chunksize=100000)
         dt = pd.concat(df, ignore_index=True)
-        # dt.loc[dt['Result']==1, 'Result'] = "Legitimate"
-        # dt.loc[dt['Result']==0, 'Result'] = "Suspicious"
-        # dt.loc[dt['Result']==-1, 'Result'] = "Phishy"
         w = ['tunnel_parents','duration', 'label', 'ts']
         for col in w:
             try:
@@ -58,9 +54,6 @@ if __name__ == '__main__':
         print("- rows  =", NROWS)
         print("- atrs =", NCOLS)
         if printer: dt.head()
-
-        # enc = preprocessing.LabelEncoder()
-
         for col in dt.columns:
             if col == 'detailed-label':
 
@@ -69,7 +62,6 @@ if __name__ == '__main__':
                 dt[col] = dt[col].astype('float')
 
         if printer: dt.head()
-
         clf = PClassification('Decision Tree', DecisionTreeClassifier(), sys.argv[2])
     except Exception as excp:
         print(excp)

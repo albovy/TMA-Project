@@ -49,9 +49,6 @@ if __name__ == '__main__':
         filename = sys.argv[1]
         df = pd.read_csv(filename, sep='\t', iterator=True, chunksize=100000)
         dt = pd.concat(df, ignore_index=True)
-        # dt.loc[dt['Result']==1, 'Result'] = "Legitimate"
-        # dt.loc[dt['Result']==0, 'Result'] = "Suspicious"
-        # dt.loc[dt['Result']==-1, 'Result'] = "Phishy"
         w = ['tunnel_parents', 'duration', 'label', 'ts']
         for col in w:
             try:
@@ -69,20 +66,15 @@ if __name__ == '__main__':
         THRESHOLD = NROWS * 2 // 3
         print('67% + 33%')
         print(THRESHOLD, '+', NROWS - THRESHOLD)
-
-        # enc = preprocessing.LabelEncoder()
-
         for col in dt.columns:
             if col == 'detailed-label':
 
                 dt[col] = dt[col].astype('str')
-                # dt[col] = enc.fit_transform(dt[col])
-                # dt[col] = dt[col].astype('float')
             else:
                 dt[col] = dt[col].astype('float')
 
         if printer: dt.head()
 
         clf = PClassification('Decision Tree', DecisionTreeClassifier(), THRESHOLD, sys.argv[2])
-    except Exception as excp :
+    except Exception as excp:
         print(excp)
