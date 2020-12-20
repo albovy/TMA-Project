@@ -4,7 +4,6 @@ from werkzeug.utils import secure_filename
 import os
 from data_model import DataModel
 
-
 UPLOAD_FOLDER = "files"
 ALLOWED_EXTENSIONS = {'txt'}
 
@@ -12,9 +11,11 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 api = Api(app)
 
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route("/ml", methods=["POST"])
 def post_file():
@@ -34,6 +35,7 @@ def post_file():
         model = DataModel()
         result = model.classify(file_path)
         return "", 201
+
 
 # api.add_resource(DataModel, '/ML')
 
